@@ -1,4 +1,6 @@
-# Trabalho2-ED
+# Trabalho2-ED - Sistema de Indexação e Busca de Imagens
+
+Este projeto implementa um sistema de indexação e busca de imagens em uma base de dados. Ele utiliza métodos de extração de características para indexar as imagens e permite realizar consultas para encontrar imagens semelhantes. O código-fonte está escrito em C e Python.
 
 Guia de utilização Git e GitHub: [Notion - Git e GitHub](https://cerulean-papaya-41b.notion.site/Git-e-GitHub-872aa24d4e724846a2bf74b12f2975d0?pvs=4)
 
@@ -37,7 +39,7 @@ Nosso programa de busca deve primeiro extrair as características da imagem sele
 
 ## Execução do programa
 
-### Requisitos
+### Pré-requisitos
   Utilizamos ambiente linux para o desenvolvimento do projeto. Caso deseje rodar o código, sugerimos que utilize o Sistema Operacional Linux ou utilize WSL2.
   
   [Guia de Instalação e Configuração WSL2](https://drive.google.com/drive/folders/1yDnofym7c58yfE7_7hulKpd_RbGvPCDZ)
