@@ -6,22 +6,34 @@ Pasta de fotos: [Google Fotos](https://drive.google.com/drive/folders/1yDnofym7c
 
 ## Visão Geral
 ### Estruturação dos arquivos
-<img src="https://github.com/laraguilar/Trabalho2-ED/assets/72893552/ba49368f-3cb7-442a-b7f0-50f1937fc1a7" width="300px"/>
+<img src="https://github.com/laraguilar/Trabalho2-ED/assets/72893552/87494093-03c5-473b-aa5f-ed6d4d110e3f" height="300px"/>
+
+
+**base:** Contém a base das imagem dentro da pasta 'img', separando-as por pastas de cada localidade. Também possui uma pasta para cada localidade contendo arquivos de cada imagem sobre suas respectivas informações fornecidas pelo extrator.
+
+**extrator:** Contém programas em python que quando executados pelo programa principal de extrator em C, usa o algoritmo SIFT para extrair as características de cada imagem.
+
+**query:** Contém informações sobre a imagem sendo consultada, após passar pelo extrator.
+
+**results:** Contém informações dos endereços das 5 imagens definidas como mais similares à imagem consultada.
 
 ### Fluxograma básico
-<img src="https://github.com/laraguilar/Trabalho2-ED/assets/72893552/b015bfbd-1ec1-4114-8d00-414c257eda2b" width="200px"/>
+<img src="https://github.com/laraguilar/Trabalho2-ED/assets/72893552/266d8d40-f337-4a0a-ae16-46ef8dd71bff" height="100px"/>
 
-Primeiro, vamos realizar a indexação das imagens da nossa base através da indexação, utilizando métodos de extração de características.
-Nosso programa deve conter uma lista encadeada contendo a estrutura da imagem. A princípio, fará parte da estrutura os atributos nome da imagem, localidade, descritor e caminho, sendo que estes podem sofrer alteração com o decorrer do projeto. Essa indexação é armazenada dentro das pastas de extração (base/extractor_n).
-Nosso programa de busca deve primeiro extrair as características da imagem selecionada, após isso, fará uma comparação com os índices do banco. Ele deverá selecionar as 5 localidades mais parecidas e imprimir na tela. 
+Nosso sistema funciona em duas partes, sendo elas a indexação e a extração. Primeiro, temos a indexação das imagens que são realizadas para extrair e salvar as características da imagem de forma que no momento da busca, elas sejam utilizados como base para identificar as localidades mais parecidas. Essa indexação é armazenada dentro das pastas de extração (base/extractor_<NOME_DA_LOCALIDADE>).
+
+Nosso programa de busca deve primeiro extrair as características da imagem selecionada, após isso, fará uma comparação com os índices do banco. Ele deverá salvar as **n** localidades mais parecidas e imprimir na tela. 
 
 ## Estrutura do Código
 
 ### Indexação
   Para a indexação, compilamos e executamos o arquivo index.c. Ele é responsável por percorrer todas as imagens do banco e realizar a extração dos descritores, que serão utilizados para futura busca. Essa etapa do projeto gera um arquivo .txt que será utilizado para mapear o caminho das imagens, seus respectivos descritores e a localidade referente.
-  A indexação é feita através de um código em python, executado através da chamada de sistema em C, que gera os descritores utilizando o método Sift, através da biblioteca **OpenCV**. Para saber mais sobre ele [clique aqui](https://docs.opencv.org/4.x/da/df5/tutorial_py_sift_intro.html).
+  
+  Os descritores são extraídos através de um código em python, executado através da chamada de sistema em C, que gera os descritores utilizando o método SIFT, através da biblioteca **OpenCV**. Para saber mais sobre ele [clique aqui](https://docs.opencv.org/4.x/da/df5/tutorial_py_sift_intro.html).
 
 ### Busca (query)
+
+
 
 ## Execução do programa
 
