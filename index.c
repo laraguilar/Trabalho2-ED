@@ -4,15 +4,6 @@
 #include <string.h>
 
 #define MAX_FILE_NAME 100
-// #define ANSI_COLOR_RED "\x1b[31m"
-// #define ANSI_COLOR_RESET "\e[0;37m"
-
-// struct Imagem
-// {
-//     char img_path[MAX_FILE_NAME];
-//     char descriptor_path[MAX_FILE_NAME];
-//     char location_name[MAX_FILE_NAME];
-// };
 
 char* getLocationName(char* location, char* folder_name){
     char line[MAX_FILE_NAME];
@@ -63,13 +54,13 @@ char* getDescriptorPath(char* descriptor_path, char* extractor_dir, char* filena
     strcat(descriptor_path, extractor_dir);
     strcat(descriptor_path, "/");
     strcat(descriptor_path, getFileNameWithoutExtension(filename));
-    strcat(descriptor_path, ".txt");
     return descriptor_path;
 }
 
 int counter_img(DIR *dir, struct dirent *lsdir, struct dirent *lsimg){
     int imgcounter = 0;
     dir = opendir("./base/img");
+    
 
     /* 
     scan all the directories and files from "img" folder and save them in a text file (.txt)
@@ -117,7 +108,7 @@ int counter_img(DIR *dir, struct dirent *lsdir, struct dirent *lsimg){
 }
 
 // create the descriptor file
-void create_descriptor(char *img_file, char *filename, char* extractor_dir, char *descriptor_path){
+void create_descriptor(char *img_file, char *descriptor_path){
     char command[150] = "python3 ";
     char file[40] = "extractor/extractor_teste.py ";
 
@@ -134,6 +125,13 @@ int main(void)
     DIR *dir;
     struct dirent *lsdir, *lsimg;
     dir = opendir("./base/img");
+
+    FILE *loc;
+    loc = fopen("./base/locations.txt", "wt");
+    if(loc == NULL) {
+        printf("Erro ao criar arquivo"); 
+        return 0;
+    }
 
     FILE *fhist;
     fhist = fopen("index_histogram-extractor.txt", "w");
@@ -164,6 +162,7 @@ int main(void)
 
             // access the location folder
             location = opendir(img_path);
+            fprintf(loc, "%s \n", folder_name);
 
             // create the extractor folder 
             char command[150] = "mkdir ";
@@ -195,7 +194,7 @@ int main(void)
                     char descriptor_path[MAX_FILE_NAME] = "";
                     getDescriptorPath(descriptor_path, extractor_dir, filename);
 
-                    create_descriptor(img_file, filename, extractor_dir, descriptor_path);
+                    create_descriptor(img_file, descriptor_path);
                     fprintf(fhist, "%s ", descriptor_path);
                     
                     // char nameLocation[MAX_FILE_NAME]; 
@@ -208,6 +207,7 @@ int main(void)
     }
     closedir(dir);
 
+    fclose(loc);
     fclose(fhist);
 
     return 0;
