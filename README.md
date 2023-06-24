@@ -15,7 +15,15 @@ Primeiro, vamos realizar a indexação das imagens da nossa base através da ind
 Nosso programa deve conter uma lista encadeada contendo a estrutura da imagem. A princípio, fará parte da estrutura os atributos nome da imagem, localidade, descritor e caminho, sendo que estes podem sofrer alteração com o decorrer do projeto. Essa indexação é armazenada dentro das pastas de extração (base/extractor_n).
 Nosso programa de busca deve primeiro extrair as características da imagem selecionada, após isso, fará uma comparação com os índices do banco. Ele deverá selecionar as 5 localidades mais parecidas e imprimir na tela. 
 
-## Executar o código
+## Estrutura do Código
+
+### Indexação
+  Para a indexação, compilamos e executamos o arquivo index.c. Ele é responsável por percorrer todas as imagens do banco e realizar a extração dos descritores, que serão utilizados para futura busca. Essa etapa do projeto gera um arquivo .txt que será utilizado para mapear o caminho das imagens, seus respectivos descritores e a localidade referente.
+  A indexação é feita através de um código em python, executado através da chamada de sistema em C, que gera os descritores utilizando o método Sift, através da biblioteca **OpenCV**. Para saber mais sobre ele [clique aqui](https://docs.opencv.org/4.x/da/df5/tutorial_py_sift_intro.html).
+
+### Busca (query)
+
+## Execução do programa
 
 ### Requisitos
   Utilizamos ambiente linux para o desenvolvimento do projeto. Caso deseje rodar o código, sugerimos que utilize o Sistema Operacional Linux ou utilize WSL2.
@@ -25,13 +33,6 @@ Nosso programa de busca deve primeiro extrair as características da imagem sele
   ***Não é necessário instalar o Docker***
 
   Certifique-se de que o compilador está instalado na sua máquina.
-
-### Indexação
-  Para a indexação, compilamos e executamos o arquivo index.c. Ele é responsável por percorrer todas as imagens do banco e realizar a extração dos descritores, que serão utilizados para futura busca. Essa etapa do projeto gera um arquivo .txt que será utilizado para mapear o caminho das imagens, seus respectivos descritores e a localidade referente.
-  A indexação é feita através de um código em python, executado através da chamada de sistema em C, que gera os descritores utilizando o método Sift, através da biblioteca **OpenCV**. Para saber mais sobre ele [clique aqui](https://docs.opencv.org/4.x/da/df5/tutorial_py_sift_intro.html).
-
-### Busca (query)
-# Trabalho2-ED
 
 #### Execução:
 
@@ -57,4 +58,6 @@ https://www.cin.ufpe.br/~in1152/aulas/rec-imagem-por-conteudo.pdf
 https://courses.cs.washington.edu/courses/cse576/07sp/notes/CBIR_white.pdf
 
 https://en.wikipedia.org/wiki/Content-based_image_retrieval
+
+
 
