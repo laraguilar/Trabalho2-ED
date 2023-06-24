@@ -1,0 +1,11 @@
+6-Rampas 
+3-Entre-o-refeitorio-e-bloco9 
+2-Cantina-posterior 
+11-B9s-banheiro 
+7-Entrada-interna-ifes 
+5-B9t-area 
+10-B8-hub 
+4-B9t-corredor 
+9-Estacionamento 
+1-Cantina 
+8-Entrada-externa-ifes 
