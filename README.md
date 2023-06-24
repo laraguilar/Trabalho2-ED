@@ -31,6 +31,21 @@ Nosso programa de busca deve primeiro extrair as características da imagem sele
   A indexação é feita através de um código em python, executado através da chamada de sistema em C, que gera os descritores utilizando o método Sift, através da biblioteca **OpenCV**. Para saber mais sobre ele [clique aqui](https://docs.opencv.org/4.x/da/df5/tutorial_py_sift_intro.html).
 
 ### Busca (query)
+# Trabalho2-ED
+
+#### Execução:
+
+##### 1º compila o arquivo list.c (será chamado pelo cabeçalho):
+gcc -c list.c -o list.o
+
+##### 2º compila o programa principal
+gcc -c main.c -o main.o
+
+##### 3º compila os dois juntos
+gcc list.o main.o -o programa
+
+##### 4º executa o programa
+./programa
 
 
 ## Referências: 
@@ -42,6 +57,4 @@ https://www.cin.ufpe.br/~in1152/aulas/rec-imagem-por-conteudo.pdf
 https://courses.cs.washington.edu/courses/cse576/07sp/notes/CBIR_white.pdf
 
 https://en.wikipedia.org/wiki/Content-based_image_retrieval
-
-
 
