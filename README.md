@@ -18,7 +18,7 @@ Pasta de fotos: [Google Fotos](https://drive.google.com/drive/folders/1yDnofym7c
 **results:** Contém informações dos endereços das 5 imagens definidas como mais similares à imagem consultada.
 
 ### Fluxograma básico
-<img src="https://github.com/laraguilar/Trabalho2-ED/assets/72893552/266d8d40-f337-4a0a-ae16-46ef8dd71bff" height="100px"/>
+<img src="https://github.com/laraguilar/Trabalho2-ED/assets/72893552/61dc0e4d-ac87-4387-8e20-f1c74329ea89" height="100px"/>
 
 Nosso sistema funciona em duas partes, sendo elas a indexação e a extração. Primeiro, temos a indexação das imagens que são realizadas para extrair e salvar as características da imagem de forma que no momento da busca, elas sejam utilizados como base para identificar as localidades mais parecidas. Essa indexação é armazenada dentro das pastas de extração (base/extractor_<NOME_DA_LOCALIDADE>).
 
