@@ -61,41 +61,61 @@ void print_list(List *l) {
   printf("\n");
 }
 
+// read the file and get the number
+int get_number_of_matches(){
+  char line[MAX_LINE];
+  FILE *fp;
+
+  fp = fopen("query/matches", "rt");
+  if(fp == NULL) {
+    printf("Erro ao criar arquivo"); 
+    return 0;
+  }
+
+  fgets(line, MAX_LINE, fp);
+  fclose(fp);
+ 
+  return atoi(line);
+}
+
+// run the python file
+void run_extractor(char *query_descriptor, char *current_descriptor){
+  char command[150] = "python3 ";
+  char file[40] = "extractor/match.py ";
+  strcat(command, file);
+  strcat(command, query_descriptor);
+  strcat(command, " ");
+  strcat(command, current_descriptor);
+  system(command);
+}
 
 int match_images(List *l, char *descriptor_path, int n_locations)
 {  
-  int max_line = 100;
-  char n_matches_str[max_line];
+  char n_matches_str[MAX_LINE];
   int n_matches;
-  FILE *fp;
 
-  List *matches;
-  matches = create_empty_list();
-
+  // create a location list with the name and the best number of matches
   LocationList *loc;
   loc = create_location_list();
 
+  // iterate the image list
   for (ListNode *p = l->first; p != NULL; p = p->next){
-    char file[40] = "extractor/match.py ";
-    char command[150] = "python3 ";
-    strcat(command, file);
-    strcat(command, descriptor_path);
-    strcat(command, " ");
-    strcat(command, p->descriptor_path);
-    system(command);
 
-    fp = fopen("query/matches", "rt");
-        if(fp == NULL) {
-        printf("Erro ao criar arquivo"); 
-        return 0;
-    }
-    fgets(n_matches_str, max_line, fp);
-    n_matches = atoi(n_matches_str);
-    fclose(fp);
+    // compare the two images and save into a txt file
+    run_extractor(descriptor_path, p->descriptor_path);
 
-    compare_match(loc, n_matches, p->location);
+    // get the number of matches 
+    n_matches = get_number_of_matches();
 
+    // printf("%s %d\n", p->location, n_matches);
+
+    // compare the matches from a location 
+    compare_match(loc, n_matches, p->location, p->img_path);
   }
-  print_location_list(loc);
+
+  // select the N most similars locations
+  getBestLocations(loc, n_locations);
+
+  free_location_list(loc);
   return 0;
 }

@@ -30,6 +30,10 @@ void free_list(List *l);
 // show all elements of the list
 void print_list(List *l);
 
+int get_number_of_matches();
+
+void run_extractor(char *query_descriptor, char *current_descriptor);
+
 int match_images(List *l, char *descriptor_path, int n_locations);
 
 #endif

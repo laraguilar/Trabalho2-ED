@@ -26,6 +26,18 @@ void free_location_list(LocationList *l);
 // show all elements of the list
 void print_location_list(LocationList *l);
 
-int compare_match(LocationList *l, int matches, char *location);
+int location_is_in_the_list(LocationList *l, char *location);
+
+LocationNode* getTail(LocationNode* head);
+
+LocationNode* partition(LocationNode* head, LocationNode* end, LocationNode** newHead, LocationNode** newEnd);
+
+LocationNode* quickSortRecur(LocationNode* head, LocationNode* end);
+
+void quickSort(LocationList* list);
+
+int getBestLocations(LocationList *l, int n_loc);
+
+int compare_match(LocationList *l, int matches, char *location, char *img_path);
 
 #endif

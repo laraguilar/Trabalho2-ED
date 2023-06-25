@@ -3,6 +3,7 @@ import numpy as np
 import cv2 as cv
 import matplotlib.pyplot as plt
 
+# iterate the descriptor and return it as a numpy list
 def read_descriptors(descriptor_filename):
     descriptors = []
     d_line = []
@@ -50,12 +51,12 @@ def main(argv):
     good_matches = []
     for m, n in matches:
         if m.distance < 0.75 * n.distance:
-            good_matches.append(m)
+            good_matches.append([m])
 
-    # return the number of good matches
+    # get the number of good matches
     n_matches = len(good_matches)
-    # print("Número de correspondências:", n_matches)
 
+    # write the number of matches into a file for get them on the C program
     with open("query/matches", "wt") as fp:
         fp.write(str(n_matches))
 

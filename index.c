@@ -2,44 +2,11 @@
 #include <stdlib.h>
 #include <dirent.h>
 #include <string.h>
+#include <time.h> 
 
-#define MAX_FILE_NAME 100
+#define MAX_FILE_NAME 70
 
-char* getLocationName(char* location, char* folder_name){
-    char line[MAX_FILE_NAME];
-    char size[6];
-    FILE *fp;
-    int i;
-
-    fp = fopen("locations.txt", "rt");
-    if(fp == NULL) {
-        printf("Erro ao criar arquivo"); 
-        return 0;
-    }
-
-    fgets(line, 99, fp);
-    location = strtok(line, ";");
-    
-    if(strcmp(folder_name, location) == 0)
-    {
-        fclose(fp);
-        return strtok(NULL, ";");
-    }
-
-    while(!feof(fp))
-    {
-        fgets(line, 99, fp);
-        location = strtok(line, ";");
-       if(strcmp(folder_name, location) == 0)
-        {
-            fclose(fp);
-            return strtok(NULL, ";");
-        }
-    }
-    fclose(fp);
-    return 0;
-}
-
+// remove extension from the image file name 
 char* getFileNameWithoutExtension(char *filename){
     for (int i = 0; i < strlen(filename); i++){
         if ( filename[i] == '.' ) {
@@ -49,6 +16,7 @@ char* getFileNameWithoutExtension(char *filename){
     }
 }
 
+// generate a descriptor path based on the filename
 char* getDescriptorPath(char* descriptor_path, char* extractor_dir, char* filename)
 {
     strcat(descriptor_path, extractor_dir);
@@ -57,14 +25,12 @@ char* getDescriptorPath(char* descriptor_path, char* extractor_dir, char* filena
     return descriptor_path;
 }
 
+// count the quantity of images from de index file
 int counter_img(DIR *dir, struct dirent *lsdir, struct dirent *lsimg){
     int imgcounter = 0;
     dir = opendir("./base/img");
     
-
-    /* 
-    scan all the directories and files from "img" folder and save them in a text file (.txt)
-    */
+    /*  scan all the directories and files from "img" folder and save them into a text file (.txt) */
     while ( ( lsdir = readdir(dir) ) != NULL )
     {
         DIR *location;
@@ -79,8 +45,6 @@ int counter_img(DIR *dir, struct dirent *lsdir, struct dirent *lsimg){
 
         // verify if the current folder detected is not set to the back or the current folder 
         if ( !(!backfolder || !samefolder) ){
-            char command[150] = "mkdir ";
-
             location = opendir(img_path);
 
             while ( (lsimg = readdir(location)) != NULL ) 
@@ -108,12 +72,12 @@ int counter_img(DIR *dir, struct dirent *lsdir, struct dirent *lsimg){
 }
 
 // create the descriptor file
-void create_descriptor(char *img_file, char *descriptor_path){
-    char command[150] = "python3 ";
-    char file[40] = "extractor/extractor_teste.py ";
+void create_descriptor(char *img_path, char *descriptor_path){
+    char command[150] = "py ";
+    char file[40] = "extractor/extractor.py ";
 
     strcat(command, file);
-    strcat(command, img_file);
+    strcat(command, img_path);
     strcat(command, " ");
     strcat(command, descriptor_path);
 
@@ -121,11 +85,15 @@ void create_descriptor(char *img_file, char *descriptor_path){
 }
 
 int main(void)
-{
+{   
+    // time_t begin = time(NULL);
+
+    //create the dir variable
     DIR *dir;
     struct dirent *lsdir, *lsimg;
     dir = opendir("./base/img");
 
+    // create the file that save the locations (used on query after)
     FILE *loc;
     loc = fopen("./base/locations.txt", "wt");
     if(loc == NULL) {
@@ -133,6 +101,7 @@ int main(void)
         return 0;
     }
 
+    // create the index file 
     FILE *fhist;
     fhist = fopen("index_histogram-extractor.txt", "w");
     if(fhist == NULL) {
@@ -147,7 +116,6 @@ int main(void)
     while (( lsdir = readdir(dir) ) != NULL )
     {
         DIR *location;
-
         char img_path[MAX_FILE_NAME] = "./base/img/";
         char folder_name[MAX_FILE_NAME] = "";
 
@@ -174,14 +142,12 @@ int main(void)
             // walks through images from the location folder
             while ( (lsimg = readdir(location)) != NULL ) 
             {
-                char imgext[MAX_FILE_NAME] = "";
                 char filename[MAX_FILE_NAME] = "";
 
                 strcpy(filename, lsimg->d_name);
-                strcpy(imgext, filename);
 
-                int backfolder1 = strcmp(imgext, "..");
-                int samefolder1 = strcmp(imgext, "."); 
+                int backfolder1 = strcmp(filename, "..");
+                int samefolder1 = strcmp(filename, "."); 
 
                 if ( !(!backfolder1 || !samefolder1) )
                 {
@@ -191,24 +157,29 @@ int main(void)
                     strcat(img_file, filename);
                     fprintf(fhist, "%s ", img_file);
 
+                    // generate the descriptor path
                     char descriptor_path[MAX_FILE_NAME] = "";
                     getDescriptorPath(descriptor_path, extractor_dir, filename);
 
+                    // run the python file
                     create_descriptor(img_file, descriptor_path);
+
                     fprintf(fhist, "%s ", descriptor_path);
-                    
-                    // char nameLocation[MAX_FILE_NAME]; 
-                    // strcpy(nameLocation, identifyLocation(nameLocation, folder_name));
                     fprintf(fhist, "%s\n", folder_name);
                 }
             }
             closedir(location);
-        } 
+        }
     }
     closedir(dir);
-
     fclose(loc);
     fclose(fhist);
 
+    // time_t end = time(NULL);
+ 
+    // // calcula o tempo decorrido encontrando a diferença (end - begin)
+    // int time = end - begin;
+    // printf("The elapsed time is %d seconds", time);
+ 
     return 0;
 }

@@ -5,6 +5,7 @@
 
 #define MAX_LINE 150
 
+// read the index file and fill the images list 
 int generateImagesList(List *images, char *histogram_extractor)
 {
     FILE *fp;
@@ -40,11 +41,11 @@ int generateImagesList(List *images, char *histogram_extractor)
     return 0;
 }
 
-// create the descriptor file
-void createDescriptor(char *img_file, char *descriptor_path){
-    char file[40] = "extractor/extractor_teste.py ";
+// extract the descriptor file
+void extractDescriptor(char *img_file, char *descriptor_path){
+    char file[40] = "extractor/extractor.py ";
+    char command[150] = "py ";
 
-    char command[150] = "python3 ";
     strcat(command, file);
     strcat(command, img_file);
     strcat(command, " ");
@@ -53,19 +54,7 @@ void createDescriptor(char *img_file, char *descriptor_path){
     system(command);
 }
 
-char* query(char *descriptor_path, List *images){
-
-    // for (ListNode *p = images->first; p != NULL; p = p->next)
-    //     printf("%s ", p->img_path);
-
-    // char file[40] = "extractor/match.py ";
-    // char command[150] = "python3 ";
-    // strcat(command, file);
-    // strcat(command, descriptor_path);
-    // system(command);
-
-}
-
+// generate a path for the descriptor
 char* getDescriptorPath(char* descriptor_path, char* extractor_dir, char* filename)
 {
     strcat(descriptor_path, extractor_dir);
@@ -91,18 +80,16 @@ int main(int argc, char *argv[])
         List *images;
         images = create_empty_list();
         generateImagesList(images, histogram_extractor);
-        
-        // create a linked list with the matches information
-        // List *matches;
-        // matches = create_empty_list();
 
         char descriptor_path[MAX_FILE_NAME];
-        char extractor_dir[MAX_FILE_NAME] = "query/extractor";
+        char extractor_dir[MAX_FILE_NAME] = "query/descriptor";
         char filename[MAX_FILE_NAME] = "img";
         getDescriptorPath(descriptor_path, extractor_dir, filename);
         
-        createDescriptor(img_query, descriptor_path);
+        // extract the image descriptors
+        extractDescriptor(img_query, descriptor_path);
         
+        // get the most similar locations and save them into a file
         match_images(images, descriptor_path, n_location);
 
         free_list(images);
@@ -110,6 +97,5 @@ int main(int argc, char *argv[])
    else {
       printf("Muitos argumentos inseridos.\n");
    }
-
     return 0;
 }
