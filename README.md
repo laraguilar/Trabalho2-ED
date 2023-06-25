@@ -1,18 +1,10 @@
 # Trabalho2-ED
 
-Este projeto implementa um sistema de indexação e busca de imagens em uma base de dados. Ele utiliza métodos de extração de características para indexar as imagens e permite realizar consultas para encontrar imagens semelhantes. O código-fonte está escrito em C e Python.
+Este projeto implementa um sistema de indexação e busca de imagens em uma base de dados utilizando métodos de extração de características (CBIR) para indexar as imagens e permite realizar consultas para encontrar imagens semelhantes. O código-fonte está escrito em C e com algumas chamadas em Python.
 
 Guia de utilização Git e GitHub: [Notion - Git e GitHub](https://cerulean-papaya-41b.notion.site/Git-e-GitHub-872aa24d4e724846a2bf74b12f2975d0?pvs=4)
 
 Pasta de fotos: [Google Fotos](https://drive.google.com/drive/folders/1yDnofym7c58yfE7_7hulKpd_RbGvPCDZ)
-
-## Funcionalidades
-  O sistema possui as seguintes funcionalidades:
-  - Indexação de Imagens: O programa realiza a indexação das imagens da base de dados, extrai suas características e armazena os índices em pastas de extração. Ele utiliza uma lista encadeada para armazenar as informações das imagens, incluindo nome, localidade, descritor e caminho.
-
-
-  - Busca de Imagens: O programa permite realizar consultas para encontrar imagens semelhantes com base em uma imagem de referência. Ele extrai as características da imagem consultada, compara com os índices armazenados e seleciona as 5 localidades mais parecidas. O resultado da busca é exibido na tela.
-
 
 ## Visão Geral
 ### Estruturação dos arquivos
@@ -21,21 +13,25 @@ Pasta de fotos: [Google Fotos](https://drive.google.com/drive/folders/1yDnofym7c
 ### Fluxograma básico
 <img src="https://github.com/laraguilar/Trabalho2-ED/assets/72893552/61dc0e4d-ac87-4387-8e20-f1c74329ea89" width="600px"/>
 
-Primeiro, vamos realizar a indexação das imagens da nossa base através da indexação, utilizando métodos de extração de características.
-Nosso programa deve conter uma lista encadeada contendo a estrutura da imagem. A princípio, fará parte da estrutura os atributos nome da imagem, localidade, descritor e caminho, sendo que estes podem sofrer alteração com o decorrer do projeto. Essa indexação é armazenada dentro das pastas de extração (base/extractor_n).
-Nosso programa de busca deve primeiro extrair as características da imagem selecionada, após isso, fará uma comparação com os índices do banco. Ele deverá selecionar as 5 localidades mais parecidas e imprimir na tela. 
+Para obtermos o resultado final (as **n** localidades mais próximas), primeiro devemos construir nossa base de dados através da indexação. Essa indexação é armazenada dentro das pastas de extração (base/extractor_<NOME_DA_LOCALIDADE>).
+Já o nosso programa de busca deve primeiro extrair as características da imagem selecionada, após isso, fará uma comparação com os índices do banco. Ele deverá selecionar as 5 localidades mais parecidas e imprimir na tela. 
+
+
+## Funcionalidades Principais
+  O sistema possui as seguintes funcionalidades:
+  - Indexação de Imagens: O programa realiza a indexação das imagens da base de dados, extrai suas características e armazena os índices em pastas de extração dentro das pastas de extração (base/extractor_<NOME_DA_LOCALIDADE>). Além disso, gera o arquivo index_histogram-extractor.txt que mapeia a quantidade de imagens e o caminho da imagem, caminho do extractor e localidade de cada uma delas. Ele serivirá como referência para a futura busca.
+
+  - Busca de Imagens: O programa permite realizar consultas para encontrar imagens semelhantes com base em uma imagem de referência. Ele extrai as características da imagem consultada, compara com os índices armazenados e seleciona as 5 localidades mais parecidas. O resultado da busca é exibido na tela.
+
 
 ## Estrutura do Código
-index.c:
-
-  Arquivo é responsável pela indexação das imagens. Nele foram implentadas as funções:
+### index.c:
   generateImagesList: lê o arquivo de índice e preenche uma lista de imagens com informações sobre as imagens, seus descritores e localidades.
   createDescriptor: gera o descritor para uma imagem usando um programa externo em Python.
   getDescriptorPath: retorna o caminho completo do descritor de uma imagem.
   No main, o arquivo abre o arquivo de índice, chama generateImagesList para preencher a lista de imagens, itera sobre a lista de imagens e chama createDescriptor para gerar o descritor de cada imagem.
 
-query.c:
-
+### query.c:
   Arquivo é responsável pela busca de imagens. Nele foi implementada a função query que será usada para realizar a busca comparando os descritores.
   No main, o arquivo lê os argumentos da linha de comando, cria uma lista de imagens, chama generateImagesList para preencher a lista de imagens, chama createDescriptor para gerar o descritor da imagem de consulta e chama a função match_images para realizar a correspondência entre os descritores.
 
@@ -69,8 +65,7 @@ location.h: Arquivo de cabeçalho com a definição das estruturas e declaraçã
 
 
   Execute o programa fornecendo os argumentos necessários. Por exemplo: 
-  $ ./programa img/aleatorias/foto.jpeg
-  index_histogram-extractor.txt 5
+  $ ./programa img/aleatorias/foto.jpeg index_histogram-extractor.txt 5
 
     O primeiro argumento é o caminho da imagem de consulta.
     O segundo argumento é o caminho do arquivo de extração de histogramas.
