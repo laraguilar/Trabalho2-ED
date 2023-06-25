@@ -73,7 +73,7 @@ int counter_img(DIR *dir, struct dirent *lsdir, struct dirent *lsimg){
 
 // create the descriptor file
 void create_descriptor(char *img_path, char *descriptor_path){
-    char command[150] = "py ";
+    char command[150] = "python3 ";
     char file[40] = "extractor/extractor.py ";
 
     strcat(command, file);

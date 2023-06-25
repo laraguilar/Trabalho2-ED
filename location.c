@@ -165,7 +165,7 @@ void quickSort(LocationList* list) {
 int getBestLocations(LocationList *l, int n_loc)
 {
   quickSort(l);  
-  print_location_list(l);
+  // print_location_list(l);
   LocationNode *current = l->first;
 
   FILE *fp;
@@ -190,8 +190,6 @@ int compare_match(LocationList *l, int matches, char *location, char *img_path)
     if (strcmp(p->location, location) == 0){
       if (matches > p->n_matches)
       {
-        printf("%s %d", p->location, p->n_matches);
-        printf("\n%s %d\n", location, matches);
         p->n_matches = matches;
         strcpy(p->img_path, img_path);
         return 1;
