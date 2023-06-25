@@ -48,7 +48,7 @@ Já o nosso programa de busca deve primeiro extrair as características da image
   
 **location.h:** Arquivo de cabeçalho com a definição das estruturas e declaração das funções para a indexação e busca de imagens.
 
-  <img src="https://github.com/laraguilar/Trabalho2-ED/assets/72893552/96395ede-9ab5-4a22-80fc-76c4de169d01" width="600px"/>
+  <img src="https://github.com/laraguilar/Trabalho2-ED/assets/72893552/0d81c6fe-93ef-4967-8804-c8a5e7082555" width="600px"/>
 
 ### Arquivos auxiliares
 
@@ -111,7 +111,7 @@ Já o nosso programa de busca deve primeiro extrair as características da image
 
 [Content-based image retrieval](https://en.wikipedia.org/wiki/Content-based_image_retrieval)
 
-[Introduction to SIFT (Scale-Invariant Feature Transform)](https://docs.opencv.org/4.x/da/df5/tutorial_py_sift_intro.html)https://docs.opencv.org/4.x/da/df5/tutorial_py_sift_intro.html
+[Introduction to SIFT (Scale-Invariant Feature Transform)](https://docs.opencv.org/4.x/da/df5/tutorial_py_sift_intro.html)
 
 [Most Popular Distance Metrics Used in KNN and When to Use Them](https://www.kdnuggets.com/2020/11/most-popular-distance-metrics-knn.html)
 
