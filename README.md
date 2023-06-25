@@ -82,22 +82,22 @@ Já o nosso programa de busca deve primeiro extrair as características da image
 
 #### 1º compile o arquivo
 
-        $ gcc -c index.c -o index
+        $ gcc -c index.c -o index_images
 
 #### 2º Execute o programa gerado 
 
-        $ ./index
+        $ ./index_images
 
 ### query.c
 #### 1º compile os arquivos separadamente
 
         $ gcc -c location.c -o location.o
         $ gcc -c list.c -o list.o
-        $ gcc -c query.c -o query.o
+        $ gcc -c query.c -o main.o
         
 #### 2º compile os executáveis gerados em conjunto
 
-        $ gcc location.o list.o query.o -o programa
+        $ gcc location.o list.o main.o -o query
 
 #### 3º execute o programa passando os argumentos devidos
 
@@ -105,7 +105,7 @@ Já o nosso programa de busca deve primeiro extrair as características da image
   
   ***OBS: Os argumentos devem ser passados na ordem correta***
   
-        $ ./programa img/aleatorias/foto.jpeg index_histogram-extractor.txt 5
+        $ ./query img/aleatorias/foto.jpeg index_histogram-extractor.txt 5
 
 
 ## Referências: 
