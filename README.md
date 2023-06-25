@@ -11,7 +11,8 @@ Pasta de fotos: [Google Fotos](https://drive.google.com/drive/folders/1yDnofym7c
 <img src="https://github.com/laraguilar/Trabalho2-ED/assets/72893552/87494093-03c5-473b-aa5f-ed6d4d110e3f" height="300px"/>
 
 ### Fluxograma básico
-<img src="https://github.com/laraguilar/Trabalho2-ED/assets/72893552/61dc0e4d-ac87-4387-8e20-f1c74329ea89" width="600px"/>
+<img src="https://github.com/laraguilar/Trabalho2-ED/assets/72893552/b755f64a-2357-401b-8c4e-2a58e94d8a67" width="600px"/>
+
 
 Para obtermos o resultado final (as **n** localidades mais próximas), primeiro devemos construir nossa base de dados através da indexação. Essa indexação é armazenada dentro das pastas de extração (base/extractor_<NOME_DA_LOCALIDADE>).
 Já o nosso programa de busca deve primeiro extrair as características da imagem selecionada, após isso, fará uma comparação com os índices do banco. Ele deverá selecionar as 5 localidades mais parecidas e imprimir na tela. 
@@ -37,6 +38,11 @@ Já o nosso programa de busca deve primeiro extrair as características da image
 
   #### Fluxograma 
   <img src="https://github.com/laraguilar/Trabalho2-ED/assets/72893552/a2cdf8d1-5286-4f4d-badb-331c20344c91" width="400px"/>
+
+  O coração dessa funcionalidade é a função chamada **match_images**, dentro do arquivo list.c. Ela é responsável por comparar o descritor de cada imagem do banco com a imagem da lista. Esse é o cerne da solução. Essa função foi implementada dentro do arquivo list devido à necessidade de percorrer a lista com as imagens. 
+
+  <img src="https://github.com/laraguilar/Trabalho2-ED/assets/72893552/6d1cfc49-f881-408d-a539-e65828ca70d5" width="600px"/>
+
 
 ### Principais estruturas utilizadas 
 
