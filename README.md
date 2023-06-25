@@ -70,6 +70,7 @@ Já o nosso programa de busca deve primeiro extrair as características da image
   
   - Compilador C: É necessário ter um compilador C instalado no sistema para compilar e executar o código.
   - Python 3: O sistema utiliza scripts Python para a extração de características das imagens.
+        - Bibliotecas python: opencv, matplotlib, numpy
 
   [Guia de Instalação e Configuração WSL2](https://drive.google.com/drive/folders/1yDnofym7c58yfE7_7hulKpd_RbGvPCDZ) ***Não é necessário instalar o Docker***
   [Compilando e executando programas em C](https://www.alura.com.br/artigos/compilando-executando-programas-c-c-windows)
