@@ -6,8 +6,7 @@
 #include <time.h> 
 #include <unistd.h>
 
-#define MAX_FILE_NAME 70
-#define PYTHON "py "
+#define PYTHON "python3 "
 
 // count the quantity of images from de index file
 int counter_img(DIR *dir, struct dirent *lsdir, struct dirent *lsimg){

@@ -1,4 +1,5 @@
 #include "location.h"
+#include "functions.h"
 #include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -12,9 +13,9 @@ struct locations {
 };
 
 struct location_node {
-  char location[MAX_FILE_NAME];
+  char *location;
   int n_matches;
-  char img_path[MAX_FILE_NAME];
+  char *img_path;
   LocationNode *next;
 };
 
@@ -52,7 +53,7 @@ int locations_is_empty(LocationList *l) { return l->first == NULL; }
 
 void insert_into_location_list(LocationList *l, char location[MAX_FILE_NAME], int n_matches) {
   LocationNode *node = (LocationNode *)malloc(sizeof(LocationNode));
-  strcpy(node->location, location);
+  concatString(node->location, location);
   node->n_matches = n_matches;
   node->next = l->first;
   l->first = node;

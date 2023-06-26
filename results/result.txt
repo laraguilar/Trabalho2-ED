@@ -1,5 +1,5 @@
-./base/img/20-refectory/3.jpeg 
-./base/img/6-ramps/7.jpeg 
-./base/img/16-hallway-lower-entrance/1.jpeg 
-./base/img/17-hallway-teachers/1.jpeg 
+./base/img/17-hallway-teachers/8.jpeg 
+./base/img/13-entrance-auditorium/6.jpeg 
 ./base/img/15-b5-external/4.jpeg 
+./base/img/20-refectory/6.jpeg 
+./base/img/11-B9s-bathroom/1.jpeg 
