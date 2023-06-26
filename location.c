@@ -180,6 +180,7 @@ int getBestLocations(LocationList *l, int n_loc)
     current = current->next;
   }
   fclose(fp);
+  printf("Resultado no arquivo results/result.txt");
   return 0;
 }
 

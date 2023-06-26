@@ -54,6 +54,10 @@ Já o nosso programa de busca deve primeiro extrair as características da image
   
 **location.h:** Arquivo de cabeçalho com a definição das estruturas e declaração das funções para a indexação e busca de imagens.
 
+**functions.c:** Contém a implementação de funções utilizadas nos dois programas.
+  
+**functions.h:** Arquivo de cabeçalho com a declaração das funções.
+
   <img src="https://github.com/laraguilar/Trabalho2-ED/assets/72893552/0d81c6fe-93ef-4967-8804-c8a5e7082555" width="600px"/>
 
 ### Arquivos auxiliares
@@ -70,6 +74,7 @@ Já o nosso programa de busca deve primeiro extrair as características da image
   
   - Compilador C: É necessário ter um compilador C instalado no sistema para compilar e executar o código.
   - Python 3: O sistema utiliza scripts Python para a extração de características das imagens.
+        - Bibliotecas python: opencv, matplotlib, numpy
 
   [Guia de Instalação e Configuração WSL2](https://drive.google.com/drive/folders/1yDnofym7c58yfE7_7hulKpd_RbGvPCDZ) ***Não é necessário instalar o Docker***
   [Compilando e executando programas em C](https://www.alura.com.br/artigos/compilando-executando-programas-c-c-windows)
@@ -79,24 +84,26 @@ Já o nosso programa de busca deve primeiro extrair as características da image
 
 ### index.c 
 
-#### 1º compile o arquivo
+#### 1º compile os arquivos separadamente
+        $ gcc -c functions.c -o functions.o
+        $ gcc -c index.c -o index.o
 
-        $ gcc -c index.c -o index
+#### 2º Compile os executáveis em conjunto
+        $ gcc functions.o index.o -o index-images
 
-#### 2º Execute o programa gerado 
-
-        $ ./index
+#### 3º Execute o programa
+        $ ./index-images
 
 ### query.c
 #### 1º compile os arquivos separadamente
-
+        $ gcc -c functions.c -o functions.o
         $ gcc -c location.c -o location.o
         $ gcc -c list.c -o list.o
         $ gcc -c query.c -o query.o
         
 #### 2º compile os executáveis gerados em conjunto
 
-        $ gcc location.o list.o query.o -o programa
+        $ gcc functions.o location.o list.o main.o -o programa
 
 #### 3º execute o programa passando os argumentos devidos
 
@@ -104,8 +111,8 @@ Já o nosso programa de busca deve primeiro extrair as características da image
   
   ***OBS: Os argumentos devem ser passados na ordem correta***
   
-        $ ./programa img/aleatorias/foto.jpeg index_histogram-extractor.txt 5
-
+        $ ./programa query/img/foto.jpeg index_histogram-extractor.txt 5
+        
 
 ## Referências: 
 
@@ -122,8 +129,3 @@ Já o nosso programa de busca deve primeiro extrair as características da image
 [Most Popular Distance Metrics Used in KNN and When to Use Them](https://www.kdnuggets.com/2020/11/most-popular-distance-metrics-knn.html)
 
 [https://docs.opencv.org/4.x/dc/dc3/tutorial_py_matcher.html](https://docs.opencv.org/4.x/da/df5/tutorial_py_sift_intro.html)
-
-
-
-
-

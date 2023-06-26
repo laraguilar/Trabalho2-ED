@@ -1,70 +1,13 @@
+#include "functions.h"
 #include <stdio.h>
 #include <stdlib.h>
-#include <dirent.h>
 #include <string.h>
+#include <dirent.h>
 #include <time.h> 
+#include <unistd.h>
 
 #define MAX_FILE_NAME 70
 #define PYTHON "py "
-
-
-char* createString(const char* text) {
-    size_t size = strlen(text) + 1;
-    char* string = (char*)malloc((int)size * sizeof(char));
-
-    if(string == NULL){
-        printf("Erro ao alocar memória\n");
-    }
-    else{
-        strcpy(string, text);
-    }
-    return string;
-}
-
-
-void concatString(char** string, const char* text) {
-    // Determina o tamanho necessário para a nova string
-    size_t current_size = strlen(*string);
-    size_t text_size = strlen(text);
-    size_t new_size = current_size + text_size + 1;
-
-    // Realoca a memória para a nova string
-    char* new_string = (char*)realloc(*string, (int)new_size * sizeof(char));
-
-    if(new_string == NULL) {
-        printf("Erro ao alocar memória. \n");
-    } else{
-    // Concatena o novo texto à string existente
-    strcat(new_string + current_size, text);
-
-    // Atualiza o ponteiro para a nova string
-    *string = new_string;
-    }
-    
-}
-
-void freeString(char* string) {
-    free(string);
-}
-
-// remove extension from the image file name 
-char* getFileNameWithoutExtension(char *filename){
-    for (int i = 0; i < strlen(filename); i++){
-        if ( filename[i] == '.' ) {
-            filename[i] = '\0';
-            return filename;
-        }
-    }
-}
-
-// generate a descriptor path based on the filename
-char* getDescriptorPath(char* extractor_dir, char* filename)
-{
-    char* descriptor_path = createString(extractor_dir);
-    concatString(&descriptor_path, "/");
-    concatString(&descriptor_path, getFileNameWithoutExtension(filename));
-    return descriptor_path;
-}
 
 // count the quantity of images from de index file
 int counter_img(DIR *dir, struct dirent *lsdir, struct dirent *lsimg){
@@ -76,11 +19,11 @@ int counter_img(DIR *dir, struct dirent *lsdir, struct dirent *lsimg){
     {
         DIR *location;
 
-        char img_path[MAX_FILE_NAME] = "./base/img/";
-        char folder_name[MAX_FILE_NAME] = "";
+        char *folder_name = createString(lsdir->d_name);
 
-        strcat(folder_name, lsdir->d_name);
-        strcat(img_path, folder_name);
+        char *img_path= createString("./base/img/");
+        concatString(&img_path, folder_name);
+        
         int backfolder = strcmp(img_path, "./base/img/..");
         int samefolder = strcmp(img_path, "./base/img/.");
 
@@ -90,22 +33,21 @@ int counter_img(DIR *dir, struct dirent *lsdir, struct dirent *lsimg){
 
             while ( (lsimg = readdir(location)) != NULL ) 
             {
-                char imgext[MAX_FILE_NAME];
-                char filename[MAX_FILE_NAME];
+                char *filename = createString(lsimg->d_name);
 
-                strcpy(filename, lsimg->d_name);
-                strcpy(imgext, filename);
-
-                int backfolder1 = strcmp(imgext, "..");
-                int samefolder1 = strcmp(imgext, "."); 
+                int backfolder1 = strcmp(filename, "..");
+                int samefolder1 = strcmp(filename, "."); 
 
                 if ( !(!backfolder1 || !samefolder1) )
                 {           
                     imgcounter++;
                 }
+                free(filename);
             }
             closedir(location);
         } 
+        free(folder_name);
+        free(img_path);
     }
     closedir(dir);
 
@@ -114,13 +56,13 @@ int counter_img(DIR *dir, struct dirent *lsdir, struct dirent *lsimg){
 
 // create the descriptor file
 void create_descriptor(char *img_path, char *descriptor_path){
-    char command[150] = PYTHON;
-    char file[40] = "extractor/extractor.py ";
+    char *command = createString(PYTHON);
+    char *file = createString("extractor/extractor.py ");
 
-    strcat(command, file);
-    strcat(command, img_path);
-    strcat(command, " ");
-    strcat(command, descriptor_path);
+    concatString(&command, file);
+    concatString(&command, img_path);
+    concatString(&command, " ");
+    concatString(&command, descriptor_path);
 
     system(command);
 }
@@ -157,11 +99,11 @@ int main(void)
     while (( lsdir = readdir(dir) ) != NULL )
     {
         DIR *location;
-        char img_path[MAX_FILE_NAME] = "./base/img/";
-        char folder_name[MAX_FILE_NAME] = "";
+        char *folder_name = createString(lsdir->d_name);
 
-        strcat(folder_name, lsdir->d_name);
-        strcat(img_path, folder_name);
+        char *img_path= createString("./base/img/");
+        concatString(&img_path, folder_name);
+
         int backfolder = strcmp(img_path, "./base/img/..");
         int samefolder = strcmp(img_path, "./base/img/.");
 
@@ -177,10 +119,7 @@ int main(void)
             char* extractor_dir = createString("./base/extractor_");
             concatString(&extractor_dir, folder_name);
 
-            char* command = createString("mkdir ");
-            concatString(&command, extractor_dir);
-
-            system(command);
+            mkdir(extractor_dir);
 
             // walks through images from the location folder
             while ( (lsimg = readdir(location)) != NULL ) 
@@ -199,7 +138,7 @@ int main(void)
                     fprintf(fhist, "%s ", img_file);
 
                     // generate the descriptor path
-                    char* descriptor_path = getDescriptorPath(extractor_dir, filename);
+                    char* descriptor_path = getDescriptorPath(extractor_dir, filename, 0);
 
                     // run the python file
                     create_descriptor(img_file, descriptor_path);
@@ -207,13 +146,12 @@ int main(void)
                     fprintf(fhist, "%s ", descriptor_path);
                     fprintf(fhist, "%s\n", folder_name);
 
-                    freeString(img_file);
-                    freeString(descriptor_path);
+                    free(img_file);
+                    free(descriptor_path);
                 }
-                freeString(filename);
+                free(filename);
             }
             closedir(location);
-            freeString(command);
         }
     }
     closedir(dir);

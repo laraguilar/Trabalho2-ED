@@ -2,8 +2,13 @@
 #include <stdlib.h>
 #include <string.h>
 #include "list.h"
+#include "functions.h"
 
 #define MAX_LINE 150
+#define PYTHON "py "
+#define EXTRACTOR_FILE "extractor/extractor.py "
+#define EXTRACTOR_DIR "query/descriptor"
+#define FILENAME "extractor_query"
 
 // read the index file and fill the images list 
 int generateImagesList(List *images, char *histogram_extractor)
@@ -24,44 +29,35 @@ int generateImagesList(List *images, char *histogram_extractor)
 
     while (!feof(fp) & count < qt_images)
     {
-        char img_path[MAX_FILE_NAME];
-        char descriptor_path[MAX_FILE_NAME];
-        char location[MAX_FILE_NAME];
-
         fgets(line, MAX_LINE, fp);
         count++;
 
-        strcpy(img_path, strtok(line, " "));
-        strcpy(descriptor_path, strtok(NULL, " "));
-        strcpy(location, strtok(NULL, "\n"));
+        char* img_path = createString(strtok(line, " "));
+        char* descriptor_path = createString(strtok(NULL, " "));
+        char* location = createString(strtok(NULL, "\n"));
+
         insert_into_the_list(images, img_path, descriptor_path, location);
+
+        free(img_path);
+        free(descriptor_path);
+        free(location);
     }
 
     fclose(fp);
     return 0;
 }
 
+
 // extract the descriptor file
 void extractDescriptor(char *img_file, char *descriptor_path){
-    char file[40] = "extractor/extractor.py ";
-    char command[150] = "py ";
-
-    strcat(command, file);
-    strcat(command, img_file);
-    strcat(command, " ");
-    strcat(command, descriptor_path);
-
+    char* command = createString(PYTHON);
+    concatString(&command, EXTRACTOR_FILE);
+    
+    concatString(&command, img_file);
+    concatString(&command, " ");
+    concatString(&command, descriptor_path);
     system(command);
-}
-
-// generate a path for the descriptor
-char* getDescriptorPath(char* descriptor_path, char* extractor_dir, char* filename)
-{
-    strcat(descriptor_path, extractor_dir);
-    strcat(descriptor_path, "/");
-    strcat(descriptor_path, filename);
-    strcat(descriptor_path, ".txt");
-    return descriptor_path;
+    free(command);
 }
 
 int main(int argc, char *argv[])
@@ -81,11 +77,9 @@ int main(int argc, char *argv[])
         images = create_empty_list();
         generateImagesList(images, histogram_extractor);
 
-        char descriptor_path[MAX_FILE_NAME];
-        char extractor_dir[MAX_FILE_NAME] = "query/descriptor";
-        char filename[MAX_FILE_NAME] = "img";
-        getDescriptorPath(descriptor_path, extractor_dir, filename);
+        char *descriptor_path = getDescriptorPath(EXTRACTOR_DIR, "extractor_query.txt", 1);
         
+
         // extract the image descriptors
         extractDescriptor(img_query, descriptor_path);
         
