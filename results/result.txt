@@ -1,5 +1,5 @@
-./base/img/9-Parking/10.jpeg 
 ./base/img/20-refectory/9.jpeg 
-./base/img/17-hallway-teachers/5.jpeg 
 ./base/img/10-b8-internal/2.jpeg 
-./base/img/1-canteen/5.jpeg 
+./base/img/11-B9s-bathroom/5.jpeg 
+./base/img/4-b9t-hallway/1.jpeg 
+./base/img/12-internal-entrance-staircase/2.jpeg 

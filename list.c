@@ -80,7 +80,7 @@ int get_number_of_matches(){
 
 // run the python file
 void run_extractor(char *query_descriptor, char *current_descriptor){
-  char command[150] = "python3 ";
+  char command[150] = "py ";
   char file[40] = "extractor/match.py ";
   strcat(command, file);
   strcat(command, query_descriptor);

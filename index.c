@@ -5,6 +5,47 @@
 #include <time.h> 
 
 #define MAX_FILE_NAME 70
+#define PYTHON "py "
+
+
+char* createString(const char* text) {
+    size_t size = strlen(text) + 1;
+    char* string = (char*)malloc((int)size * sizeof(char));
+
+    if(string == NULL){
+        printf("Erro ao alocar memória\n");
+    }
+    else{
+        strcpy(string, text);
+    }
+    return string;
+}
+
+
+void concatString(char** string, const char* text) {
+    // Determina o tamanho necessário para a nova string
+    size_t current_size = strlen(*string);
+    size_t text_size = strlen(text);
+    size_t new_size = current_size + text_size + 1;
+
+    // Realoca a memória para a nova string
+    char* new_string = (char*)realloc(*string, (int)new_size * sizeof(char));
+
+    if(new_string == NULL) {
+        printf("Erro ao alocar memória. \n");
+    } else{
+    // Concatena o novo texto à string existente
+    strcat(new_string + current_size, text);
+
+    // Atualiza o ponteiro para a nova string
+    *string = new_string;
+    }
+    
+}
+
+void freeString(char* string) {
+    free(string);
+}
 
 // remove extension from the image file name 
 char* getFileNameWithoutExtension(char *filename){
@@ -17,11 +58,11 @@ char* getFileNameWithoutExtension(char *filename){
 }
 
 // generate a descriptor path based on the filename
-char* getDescriptorPath(char* descriptor_path, char* extractor_dir, char* filename)
+char* getDescriptorPath(char* extractor_dir, char* filename)
 {
-    strcat(descriptor_path, extractor_dir);
-    strcat(descriptor_path, "/");
-    strcat(descriptor_path, getFileNameWithoutExtension(filename));
+    char* descriptor_path = createString(extractor_dir);
+    concatString(&descriptor_path, "/");
+    concatString(&descriptor_path, getFileNameWithoutExtension(filename));
     return descriptor_path;
 }
 
@@ -73,7 +114,7 @@ int counter_img(DIR *dir, struct dirent *lsdir, struct dirent *lsimg){
 
 // create the descriptor file
 void create_descriptor(char *img_path, char *descriptor_path){
-    char command[150] = "python3 ";
+    char command[150] = PYTHON;
     char file[40] = "extractor/extractor.py ";
 
     strcat(command, file);
@@ -133,42 +174,46 @@ int main(void)
             fprintf(loc, "%s \n", folder_name);
 
             // create the extractor folder 
-            char command[150] = "mkdir ";
-            char extractor_dir[MAX_FILE_NAME] = "./base/extractor_";
-            strcat(extractor_dir, folder_name);
-            strcat(command, extractor_dir);
+            char* extractor_dir = createString("./base/extractor_");
+            concatString(&extractor_dir, folder_name);
+
+            char* command = createString("mkdir ");
+            concatString(&command, extractor_dir);
+
             system(command);
 
             // walks through images from the location folder
             while ( (lsimg = readdir(location)) != NULL ) 
             {
-                char filename[MAX_FILE_NAME] = "";
-
-                strcpy(filename, lsimg->d_name);
+                char *filename = createString(lsimg->d_name);
 
                 int backfolder1 = strcmp(filename, "..");
                 int samefolder1 = strcmp(filename, "."); 
 
                 if ( !(!backfolder1 || !samefolder1) )
                 {
-                    char img_file[MAX_FILE_NAME] = "";
-                    strcat(img_file, img_path);
-                    strcat(img_file, "/");
-                    strcat(img_file, filename);
+                    char* img_file = createString(img_path);
+                    concatString(&img_file, "/");
+                    concatString(&img_file, filename);
+
                     fprintf(fhist, "%s ", img_file);
 
                     // generate the descriptor path
-                    char descriptor_path[MAX_FILE_NAME] = "";
-                    getDescriptorPath(descriptor_path, extractor_dir, filename);
+                    char* descriptor_path = getDescriptorPath(extractor_dir, filename);
 
                     // run the python file
                     create_descriptor(img_file, descriptor_path);
 
                     fprintf(fhist, "%s ", descriptor_path);
                     fprintf(fhist, "%s\n", folder_name);
+
+                    freeString(img_file);
+                    freeString(descriptor_path);
                 }
+                freeString(filename);
             }
             closedir(location);
+            freeString(command);
         }
     }
     closedir(dir);

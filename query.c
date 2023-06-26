@@ -44,7 +44,7 @@ int generateImagesList(List *images, char *histogram_extractor)
 // extract the descriptor file
 void extractDescriptor(char *img_file, char *descriptor_path){
     char file[40] = "extractor/extractor.py ";
-    char command[150] = "python3 ";
+    char command[150] = "py ";
 
     strcat(command, file);
     strcat(command, img_file);
