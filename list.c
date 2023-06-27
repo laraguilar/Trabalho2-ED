@@ -1,13 +1,10 @@
 #include "list.h"
 #include "location.h"
-#include "functions.h"
 #include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
-#define PYTHON "python3 "
-#define MATCH "extractor/match.py "
+#include "functions.h"
 
 // structs -----
 
@@ -83,17 +80,18 @@ int get_number_of_matches(){
 
 // run the python file
 void run_extractor(char *query_descriptor, char *current_descriptor){
-  char* command =  createString(PYTHON);
-  concatString(&command, MATCH);
-  concatString(&command, query_descriptor);
-  concatString(&command, " ");
-  concatString(&command, current_descriptor);
+  char command[150] = "py ";
+  char file[40] = "extractor/match.py ";
+  strcat(command, file);
+  strcat(command, query_descriptor);
+  strcat(command, " ");
+  strcat(command, current_descriptor);
   system(command);
-  free(command);
 }
 
 int match_images(List *l, char *descriptor_path, int n_locations)
-{
+{  
+  char n_matches_str[MAX_LINE];
   int n_matches;
 
   // create a location list with the name and the best number of matches

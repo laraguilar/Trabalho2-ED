@@ -1,12 +1,12 @@
-#include "functions.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <dirent.h>
 #include <time.h> 
 #include <unistd.h>
+#include "functions.h"
 
-#define PYTHON "python3 "
+#define PYTHON "py "
 
 // count the quantity of images from de index file
 int counter_img(DIR *dir, struct dirent *lsdir, struct dirent *lsimg){

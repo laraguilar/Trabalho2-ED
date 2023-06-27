@@ -5,7 +5,7 @@
 #include "functions.h"
 
 #define MAX_LINE 150
-#define PYTHON "python3 "
+#define PYTHON "py "
 #define EXTRACTOR_FILE "extractor/extractor.py "
 #define EXTRACTOR_DIR "query/descriptor"
 #define FILENAME "extractor_query"
