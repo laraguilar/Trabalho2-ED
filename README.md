@@ -103,7 +103,7 @@ Já o nosso programa de busca deve primeiro extrair as características da image
         
 #### 2º compile os executáveis gerados em conjunto
 
-        $ gcc functions.o location.o list.o main.o -o programa
+        $ gcc functions.o location.o list.o query.o -o programa
 
 #### 3º execute o programa passando os argumentos devidos
 
