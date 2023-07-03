@@ -11,7 +11,8 @@ Pasta de fotos: [Google Fotos](https://drive.google.com/drive/folders/1yDnofym7c
 <img src="https://github.com/laraguilar/Trabalho2-ED/assets/72893552/87494093-03c5-473b-aa5f-ed6d4d110e3f" height="300px"/>
 
 ### Fluxograma básico
-<img src="https://github.com/laraguilar/Trabalho2-ED/assets/72893552/b755f64a-2357-401b-8c4e-2a58e94d8a67" width="600px"/>
+
+<img src="https://github.com/laraguilar/Trabalho2-ED/assets/72893552/e50cccd7-bc45-4862-9554-38e242b3f818" width="600px"/>
 
 
 Para obtermos o resultado final (as **n** localidades mais próximas), primeiro devemos construir nossa base de dados através da indexação. Essa indexação é armazenada dentro das pastas de extração (base/extractor_<NOME_DA_LOCALIDADE>).
